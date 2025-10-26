@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Face Detection System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Criminal Face Detection</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="detect">
+                    <i class="fas fa-camera"></i> Detect
+                </button>
+                <button class="nav-btn" data-section="criminals">
+                    <i class="fas fa-users"></i> Criminals
+                </button>
+                <button class="nav-btn" data-section="add">
+                    <i class="fas fa-plus-circle"></i> Add New
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Detection Section -->
+        <section id="detect-section" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-camera"></i> Face Detection</h2>
+                    <p>Upload an image to detect criminals</p>
+                </div>
+
+                <div class="detection-grid">
+                    <!-- Upload Box -->
+                    <div class="upload-box">
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drop image here or click to upload</h3>
+                            <p>Supported: JPG, PNG</p>
+                            <input type="file" id="imageUpload" accept="image/*" hidden>
+                        </div>
+                        <button class="btn btn-primary" id="detectBtn" disabled>
+                            <i class="fas fa-search"></i> Analyze Image
+                        </button>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="results-panel">
+                        <div id="imagePreview" class="image-preview">
+                            <div class="placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Results will appear here</p>
+                            </div>
+                        </div>
+                        
+                        <div id="detectionInfo" class="detection-info hidden">
+                            <!-- Detection details will be shown here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Criminals List Section -->
+        <section id="criminals-section" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Criminal Database</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="loadCriminals()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search by name...">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="criminalsList" class="criminals-grid">
+                    <!-- Criminal cards will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Criminal Section -->
+        <section id="add-section" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Add New Criminal</h2>
+                    <p>Register a new criminal in the database</p>
+                </div>
+
+                <div class="form-container">
+                    <form id="addCriminalForm" class="form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-user"></i> Full Name</label>
+                                <input type="text" name="name" required placeholder="John Doe">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-gavel"></i> Crime</label>
+                                <input type="text" name="crime" required placeholder="Theft">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-birthday-cake"></i> Age</label>
+                                <input type="number" name="age" required placeholder="30">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-venus-mars"></i> Gender</label>
+                                <select name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                                <input type="text" name="location" required placeholder="Mumbai">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label><i class="fas fa-image"></i> Upload Photo</label>
+                                <div class="file-upload">
+                                    <input type="file" name="image" id="criminalImage" accept="image/*" required>
+                                    <label for="criminalImage" class="file-label">
+                                        <i class="fas fa-upload"></i>
+                                        <span>Choose Image</span>
+                                    </label>
+                                    <span id="fileName" class="file-name">No file chosen</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Add Criminal
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section id="statistics-section" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Detection Statistics</h2>
+                    <button class="btn btn-primary" id="refreshStats">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <div id="statsContainer" class="stats-container">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
